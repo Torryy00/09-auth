@@ -1,29 +1,23 @@
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #333;
+.userEmail {
     color: white;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
 }
 
-.headerLink {
-    text-decoration: none;
+.logoutButton {
+    background: transparent;
+    border: 1px solid white;
     color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.headerLink:hover {
-    color: #ddd;
-}
-
-.navigation {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 1rem;
+.logoutButton:hover {
+    background-color: white;
+    color: #333;
 }
 
 .navigationItem {

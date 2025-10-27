@@ -1,36 +1,51 @@
-import css from "./profile.module.css";
-import Image from "next/image";
-import { Metadata } from "next";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import css from './ProfilePage.module.css';
+import { getMeServer } from '@/lib/api/serverApi';
 
 export const metadata: Metadata = {
-  title: "Profile Page",
-  description: "User profile information page in NoteHub app",
+  title: 'User Profile | NoteHub',
+  description: 'View and manage your personal profile, notes, and settings in NoteHub.',
+  keywords: ['profile', 'user account', 'notes', 'NoteHub', 'settings'],
+  authors: [{ name: 'NoteHub Team' }],
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: 'User Profile | NoteHub',
+    description: 'Manage your account, notes, and preferences in NoteHub.',
+    url: 'https://notehub.vercel.app/profile',
+    siteName: 'NoteHub',
+    type: 'website',
+    images: [
+      { url: 'https://notehub.vercel.app/og-image.jpg', width: 1200, height: 630, alt: 'NoteHub Profile Page' },
+    ],
+  },
 };
 
-const ProfilePage = () => {
+const ProfilePage = async () => {
+  const user = await getMeServer();
+
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
         <div className={css.header}>
           <h1 className={css.formTitle}>Profile Page</h1>
-          <a href="#" className={css.editProfileButton}>
+          <Link href="/profile/edit" className={css.editProfileButton}>
             Edit Profile
-          </a>
+          </Link>
+          <div className={css.avatarWrapper}>
+            <Image
+              src={user?.avatar || '/default-avatar.png'}
+              alt="User Avatar"
+              width={120}
+              height={120}
+              className={css.avatar}
+            />
+          </div>
         </div>
-
-        <div className={css.avatarWrapper}>
-          <Image
-            src="https://ac.goit.global/img/user-avatar.png"
-            alt="User Avatar"
-            width={120}
-            height={120}
-            className={css.avatar}
-          />
-        </div>
-
         <div className={css.profileInfo}>
-          <p>Username: your_username</p>
-          <p>Email: your_email@example.com</p>
+          <p>Username: {user?.username || 'your_username'}</p>
+          <p>Email: {user?.email || 'your_email@example.com'}</p>
         </div>
       </div>
     </main>

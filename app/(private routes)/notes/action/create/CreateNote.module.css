@@ -6,9 +6,7 @@
     width: 90%;
     max-width: 1280px;
     margin: 0px auto;
-    padding-top: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 0 16px 16px;
 }
 
 .title {
@@ -17,11 +15,4 @@
     color: #1a1a1a;
     margin-bottom: 60px;
     text-align: center;
-}
-
-.description {
-    font-size: 18px;
-    color: #444444;
-    line-height: 28px;
-    margin-bottom: 16px;
 }

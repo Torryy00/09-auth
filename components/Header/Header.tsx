@@ -4,7 +4,7 @@ import { useState } from "react";
 import css from "./Header.module.css";
 import Link from "next/link";
 import TagsMenu from "../TagsMenu/TagsMenu";
-import AuthNavigation from "../AuthNavigation/AuthNavigation"; 
+import AuthNavigation from "@/components/AuthNavigation/AuthNavigation";
 
 const Header = () => {
   const [activeTag, setActiveTag] = useState("");
@@ -17,14 +17,12 @@ const Header = () => {
       <nav aria-label="Main Navigation">
         <ul className={css.navigation}>
           <li className={css.navigationItem}>
-            <Link className={css.navigationLink} href="/">
-              Home
-            </Link>
+            <Link className={css.navigationLink} href="/">Home</Link>
           </li>
           <li>
             <TagsMenu activeTag={activeTag} setActiveTag={setActiveTag} />
           </li>
-
+          
           <AuthNavigation />
         </ul>
       </nav>

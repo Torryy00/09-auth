@@ -18,9 +18,8 @@ export const metadata: Metadata = {
   description: "All your notes in one place.",
   openGraph: {
     title: "Note Hub",
-    description:
-      "Stay organized and focused with smart note management in Note Hub.",
-    url: "https://08-zustand-two-alpha.vercel.app",
+    description: "Stay organized and focused with smart note management in Note Hub.",
+    url: "https://09-auth-alpha-three.vercel.app",
     images: [
       { url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg" },
     ],
@@ -29,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal,
+  modal
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;

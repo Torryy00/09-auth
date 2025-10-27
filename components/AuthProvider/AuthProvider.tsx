@@ -1,42 +1,48 @@
-"use client";
+'use client';
 
-import { ReactNode, useEffect, useState } from "react";
-import { checkSession, logout as logoutApi } from "../../lib/api/clientApi";
-import { useAuthStore } from "../../lib/store/authStore";
+import { useState, useEffect, ReactNode } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { getMe } from '@/lib/api/clientApi';
+import Loader from '../../components/Loader/Loader';
+import type { User } from '@/types/user';
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthProvider = ({ children }: AuthProviderProps) => {
+const AUTH_ROUTES = ['/sign-in', '/sign-up'];
+const PRIVATE_ROUTES = ['/profile'];
+
+export default function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true);
-  const { setUser, clearIsAuthenticated } = useAuthStore();
+  const [, setUser] = useState<User | null>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    const verifySession = async () => {
+    const checkAuth = async () => {
       try {
-        const user = await checkSession();
-        if (user) {
-          setUser(user);
-        } else {
-          clearIsAuthenticated();
+        const me = await getMe();
+        setUser(me);
+
+        if (AUTH_ROUTES.some(route => pathname.startsWith(route))) {
+          router.replace('/');
         }
-      } catch (err) {
-        await logoutApi();
-        clearIsAuthenticated();
+      } catch {
+        setUser(null);
+
+        if (PRIVATE_ROUTES.some(route => pathname.startsWith(route))) {
+          router.replace('/sign-in');
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    verifySession();
-  }, [setUser, clearIsAuthenticated]);
+    checkAuth();
+  }, [pathname, router]);
 
-  if (loading) {
-    return <div>Loading...</div>; // или любой лоадер
-  }
+  if (loading) return <Loader />;
 
   return <>{children}</>;
-};
-
-export default AuthProvider;
+}

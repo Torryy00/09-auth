@@ -13,7 +13,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onPageChange,
 }) => {
-  if (pageCount <= 1) return null; // показуємо тільки якщо є >1 сторінка
+  if (pageCount <= 1) return null;
 
   return (
     <ReactPaginate
