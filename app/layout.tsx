@@ -1,51 +1,13 @@
-import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer/Footer";
-import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
-import AuthProvider from "@/components/AuthProvider/AuthProvider";
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import './globals.css';
 
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-export const metadata: Metadata = {
-  title: "Note Hub",
-  description: "All your notes in one place.",
-  openGraph: {
-    title: "Note Hub",
-    description: "Stay organized and focused with smart note management in Note Hub.",
-    url: "https://09-auth-alpha-three.vercel.app",
-    images: [
-      { url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg" },
-    ],
-  },
-};
-
-export default function RootLayout({
-  children,
-  modal
-}: Readonly<{
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${roboto.variable}`}>
-        <TanStackProvider>
-          <AuthProvider>
-            <Header />
-            <main>
-              {children}
-              {modal}
-            </main>
-            <Footer />
-          </AuthProvider>
-        </TanStackProvider>
+    <html lang="uk">
+      <body>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
