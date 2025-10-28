@@ -1,48 +1,35 @@
 'use client';
 
-import { useState, useEffect, ReactNode } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { getMe } from '@/lib/api/clientApi';
-import Loader from '../../components/Loader/Loader';
-import type { User } from '@/types/user';
+import React, { ReactNode, useEffect } from 'react';
+import { getMeServer } from '@/lib/api/serverApi'; 
+import { useAuthStore } from '@/lib/store/authStore';
+
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AUTH_ROUTES = ['/sign-in', '/sign-up'];
-const PRIVATE_ROUTES = ['/profile'];
-
-export default function AuthProvider({ children }: AuthProviderProps) {
-  const [loading, setLoading] = useState(true);
-  const [, setUser] = useState<User | null>(null);
-  const pathname = usePathname();
-  const router = useRouter();
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const { setUser, clearIsAuthenticated, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const verifyAuth = async () => {
       try {
-        const me = await getMe();
-        setUser(me);
-
-        if (AUTH_ROUTES.some(route => pathname.startsWith(route))) {
-          router.replace('/');
-        }
+        const user = await getMeServer();
+        setUser(user);
       } catch {
-        setUser(null);
-
-        if (PRIVATE_ROUTES.some(route => pathname.startsWith(route))) {
-          router.replace('/sign-in');
-        }
-      } finally {
-        setLoading(false);
+        clearIsAuthenticated();
       }
     };
 
-    checkAuth();
-  }, [pathname, router]);
+    verifyAuth();
+  }, [setUser, clearIsAuthenticated]);
 
-  if (loading) return <Loader />;
+  if (isAuthenticated === false) {
+    return <div>Завантаження...</div>;
+  }
 
   return <>{children}</>;
-}
+};
+
+export default AuthProvider;
